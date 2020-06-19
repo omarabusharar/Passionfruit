@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "factsite.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
