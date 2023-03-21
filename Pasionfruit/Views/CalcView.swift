@@ -11,34 +11,9 @@ import SwiftUI
 struct CalcView: View {
     @State var FirstString: String = ""
     @State var SecondString: String = ""
-    @State var SecondNumber: Float = 0
-    @State var FirstNumber: Float = 0
-    @State private var EqualSign: Bool = false
-    @State var operators = ""
-    @State var isCalculated:Bool = false
-    @State var Total: Float = 0.0
-    @State var TotalS: String = ""
-    @State var currentoperator = ""
-
-     func Calculate() {
-        FirstNumber = Float(FirstString)!
-        SecondNumber = Float(SecondString)!
-        if operators == "plus" {
-     Total = FirstNumber + SecondNumber
-        } else if operators == "minus" {
-      Total = FirstNumber - SecondNumber
-
-        } else if operators == "times" {
-      Total = FirstNumber * SecondNumber
-
-   
-        } else if operators == "divide" {
-       Total = FirstNumber / SecondNumber
-
-        }
-    }
-    
-    
+    @State var Total:Float? = nil
+    @State var currentoperator = "+"
+    let operators = ["+","-","*","/"]
     var body: some View {
         HStack {
             Spacer()
@@ -55,53 +30,16 @@ struct CalcView: View {
     TextField("Second Number", text: self.$SecondString)
             Spacer()
                            .frame(height: 100)
-            HStack {
-                Text("Current Operator: \(currentoperator)")
-            }
-            HStack {
-               Button(action: {
-                    // What to perform
-                self.operators = "plus"
-                self.currentoperator = "+"
-                }) {
-                 Text("+")   // How the button looks like
+            Picker(selection: $currentoperator, label: Text("Operator"), content: {
+                ForEach(operators, id: \.self) { o in
+                    Text(o)
                 }
-            Button(action: {
-                    // What to perform
-                self.operators = "minus"
-            self.currentoperator = "-"
-                    }) {
-                    Text("-")   // How the button looks like
-                           }
-            Button(action: {
-                // What to perform
-            self.operators = "times"
-            self.currentoperator = "x"
-                }) {
-                Text("x")   // How the button looks like
-                       }
-            Button(action: {
-                // What to perform
-            self.operators = "divide"
-                self.currentoperator = "/"
-                }) {
-                Text("/")
-                    // How the button looks like
-                       }
-            }
-            
-            Button(action: {
-                // What to perform
-                self.Calculate()
-                self.TotalS = String(self.Total)
-                self.isCalculated = true
-                
-            }) {
-                Text("Calculate")
-            }
-            if isCalculated {
-        Text("Result = \(TotalS)")
-            }
+            })
+            .pickerStyle(.segmented)
+            Button("Calculate", action: {
+                Total = ((NSExpression(format: "\(FirstString)\(currentoperator)\(SecondString)").expressionValue(with: nil, context: nil)) as! Float)
+            })
+            Text("Result: \(String(Total ?? 0))")
     }
      Spacer()
      .frame(width: 30)

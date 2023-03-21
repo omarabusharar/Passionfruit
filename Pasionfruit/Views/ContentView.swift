@@ -9,68 +9,45 @@
 import SwiftUI
 import AppKit
 struct ContentView: View {
-    
-    var calc:SidebarItem = SidebarItem(name: "Calculator", sidepic: "calc", destination: "CalcView")
-    var fact:SidebarItem = SidebarItem(name: "Fun Facts", sidepic: "facts", destination: "FactView")
-     var ToDoList:SidebarItem = SidebarItem(name: "To-Do List", sidepic: "checkmark", destination: "ToDo")
-    var Article = SidebarItem(name: "Article", sidepic: "Article", destination: "PresentationView")
-    var Home = SidebarItem(name: "Home", sidepic: "house", destination: "DainView")
-    var Riddle2 = SidebarItem(name: "Riddles", sidepic: "sources", destination: "RiddleView")
-   
+    let sidebarViews = [
+        SidebarItem(name: "Home", sidepic: "house"),
+        SidebarItem(name: "Article", sidepic: "Article"),
+        SidebarItem(name: "Sources", sidepic: "slides"),
+        SidebarItem(name: "Calculator", sidepic: "calc"),
+        SidebarItem(name: "To-Do List", sidepic: "checkmark"),
+        SidebarItem(name: "Fun Facts", sidepic: "facts"),
+        SidebarItem(name: "Riddles", sidepic: "sources")
+    ]
+    @State var selection:String? = "Home"
     var body: some View {
 
         NavigationView() {
-        
-            List() {
-        VStack {
-            Spacer()
-                .frame(height: 10)
-
-             Text("Applications")
-                .foregroundColor(Color.gray)
-            Spacer()
-                .frame(height: 4)
-            }
+            List(sidebarViews, id: \.name, selection: $selection, rowContent:{ element in
+                SideBarView(SidebarItem: element)
+                    }) .listStyle(SidebarListStyle())
             
-       NavigationLink(destination: CalcView()) {
-            SideBarView(SidebarItem: calc)
-            }
-        NavigationLink(destination: FactView()) {
-                   SideBarView(SidebarItem: fact)
-                   }
-        NavigationLink(destination: RiddleView()) {
-            SideBarView(SidebarItem: Riddle2)
-        }
-        NavigationLink(destination: ToDo()) {
-                   SideBarView(SidebarItem: ToDoList)
-                   }
-            
-        Divider()
-            
-    VStack {
-        Text("Main")
-            .foregroundColor(Color.gray)
-            }
- 
-        
-                
-        NavigationLink(destination: PresentationView()) {
-            SideBarView(SidebarItem: Article)
-            }
-            Group {
-             
-        NavigationLink(destination: DainView()) {
-        SideBarView(SidebarItem: Home)
-            }
-            }
-        } .listStyle(SidebarListStyle())
-            
-            .frame(minWidth: 200, maxWidth: 200, minHeight: 600, maxHeight: .infinity)
+            .frame(minWidth: 200, maxWidth: .infinity, minHeight: 600, maxHeight: .infinity)
+            .navigationViewStyle(DoubleColumnNavigationViewStyle())
+        if selection == "Home" {
             DainView()
                 .frame(minWidth: 700, maxWidth: .infinity, minHeight: 600, maxHeight: .infinity)
-   .navigationViewStyle(DoubleColumnNavigationViewStyle()) }
+        } else if selection == "Article" {
+           PresentationView()
+        } else if selection == "Sources" {
+            SourceView()
+        } else if selection == "Calculator" {
+            CalcView()
+        } else if selection == "To-Do List" {
+            ToDo()
+        } else if selection == "Fun Facts" {
+            FactView()
+        } else if selection == "Riddles" {
+            RiddleView()
+        }
+        }
+    }
 }
-}
+
 
 struct DainView: View {
 var body: some View {
@@ -105,7 +82,7 @@ var body: some View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 90, height: 90, alignment: .leading)
-                Text("The apps I  created only show snipets of what is possible with the skill of progamming.")
+                Text("The apps I created only show snipets of what is possible with the skill of progamming.")
                     .frame(width: 150)
                                }
             Spacer()

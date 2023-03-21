@@ -29,11 +29,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.makeKeyAndOrderFront(nil)
         self.window.titleVisibility = NSWindow.TitleVisibility.hidden;
         self.window.titlebarAppearsTransparent = true;
-        window.styleMask.remove(.resizable)
             }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+        window.close()
     }
 
     @IBAction func ShowScript(_ sender: Any) {

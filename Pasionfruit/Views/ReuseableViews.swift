@@ -65,7 +65,6 @@ struct FiveRowStack2:View {
 struct SidebarItem {
     var name: String = ""
     var sidepic:String = ""
-    var destination:String = ""
 }
 
 struct SideBarView: View {
@@ -77,7 +76,6 @@ HStack {
     .aspectRatio(contentMode: .fit)
     .frame(width: 20, height: 20, alignment: .topLeading)
     Text(SidebarItem.name)
-    .foregroundColor(Color.TextColor)
                 }
             }
         }

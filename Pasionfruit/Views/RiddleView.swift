@@ -12,55 +12,11 @@ import SwiftUI
 
 
 struct RiddleView: View {
-
-var riddles = [1,2,3,4,5,6]
-
- @State var answer = ""
- @State var riddler = ""
-
-@State var shownriddle = 0
-@State var needAnswer: Bool = false
-@State var needRiddle: Bool = false
-    func riddlemaker() {
-        let riddle = riddles.randomElement()
-        if riddle == 1 {
-            needAnswer = false
-            riddler = "What question can you never answer yes to?"
-            answer = "Are you asleep yet?"
-shownriddle = 1
-        } else if riddle == 2 {
-            needAnswer = false
-            riddler = "What has to be broken before you can use it?"
-            answer = "An egg"
-   shownriddle = 1
-        } else if riddle == 3 {
-            needAnswer = false
-            riddler = "What goes up but never comes down?"
-            answer = "Your age"
- shownriddle = 1
-        } else if riddle == 4 {
-            needAnswer = false
-            riddler = "A man who was outside in the rain without an umbrella or hat didn’t get a single hair on his head wet. Why?"
-            answer = "He was bald"
-       shownriddle = 1
-        } else if riddle == 4 {
-            needAnswer = false
-        riddler = "A man who was outside in the rain without an umbrella or hat didn’t get a single hair on his head wet. Why?"
-        answer = "He was bald"
-    shownriddle = 1
-        } else if riddle == 5 {
-            needAnswer = false
-            riddler = "Mark’s parents have three sons: Snap, Crackle, and what’s the name of the third son?"
-            answer = "Mark"
-        shownriddle = 1
-        } else if riddle == 6 {
-            needAnswer = false
-            riddler = "What has a head and a tail but no body?"
-            answer = "A coin"
-   shownriddle = 1
-            
-        }
-    }
+let riddles = ["What question can you never answer yes to?","What has to be broken before you can use it?","What goes up but never comes down?","A man who was outside in the rain without an umbrella or hat didn’t get a single hair on his head wet. Why?","Mark’s parents have three sons: Snap, Crackle, and what’s the name of the third son?","What has a head and a tail but no body?"]
+    let answers = ["Are you asleep yet?","An egg","Your age","He was bald","Mark","A coin"]
+@State var needAnswer = false
+@State var needRiddle = false
+@State var selected = 0
     var body: some View {
         
         VStack {
@@ -71,30 +27,22 @@ shownriddle = 1
     Spacer()
         .frame(height: 100)
     if needRiddle == true {
-        Text("\(riddler)")
+        Text("\(riddles[selected])")
             .font(.system(size: 31))
             }
     Spacer()
         .frame(height: 100)
     if needAnswer == true {
-        Text("Answer: \(answer)")
+        Text("Answer: \(answers[selected])")
             }
         Spacer()
             .frame(height:40)
             HStack {
-            Button(action: {
-                self.riddlemaker()
-                self.needRiddle = true
-            }) {
-                if shownriddle == 0 {
-              Text("Give me a Riddle!")
-                    .bold()
-                } else if shownriddle != 0 {
-                    Text("Give me another one!")
-                }
-                
-                }
-                if shownriddle == 1 {
+                Button(needRiddle ? "Another One!" : "Give me a Riddle!",action: {
+                needRiddle = true
+                    selected = Int.random(in: 0...5)
+            })
+                if needRiddle == true {
             Button(action: {
                 if self.needAnswer == false {
                 self.needAnswer = true
